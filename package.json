@@ -1,5 +1,5 @@
 {
-  "name": "homebridge-web-thermostat",
+  "name": "switchbot-thermostat",
   "version": "1.4.3",
   "description": "Homebridge plugin for a web-based thermostat",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "engines": {
     "homebridge": ">=0.4.50",
-    "node": ">=12.13.0"
+    "node": ">=16.13.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

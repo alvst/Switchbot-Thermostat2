@@ -8,7 +8,7 @@ module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
   homebridge.registerAccessory(
-    'Switchbot-Thermostat',
+    'switchbot-thermostat',
     'Thermostat',
     Thermostat
   );
