@@ -37,4 +37,68 @@ function Thermostat(log, config) {
   this.powerState = 0;
   // 0 = Off
   // 1 = On
+
+  getServices: function () {
+    this.informationService = new Service.AccessoryInformation()
+    this.informationService
+      .setCharacteristic(Characteristic.Manufacturer, this.manufacturer)
+      .setCharacteristic(Characteristic.Model, this.model)
+      .setCharacteristic(Characteristic.SerialNumber, this.serial)
+      .setCharacteristic(Characteristic.FirmwareRevision, this.firmware)
+
+    this.service.getCharacteristic(Characteristic.TemperatureDisplayUnits).updateValue(this.temperatureDisplayUnits)
+
+    this.service
+      .getCharacteristic(Characteristic.TargetHeatingCoolingState)
+      .on('set', this.setTargetHeatingCoolingState.bind(this))
+
+    this.service.getCharacteristic(Characteristic.TargetHeatingCoolingState)
+      .setProps({
+        validValues: this.validStates
+      })
+
+    this.service
+      .getCharacteristic(Characteristic.TargetTemperature)
+      .on('set', this.setTargetTemperature.bind(this))
+      .setProps({
+        minValue: this.minTemp,
+        maxValue: this.maxTemp,
+        minStep: this.minStep
+      })
+
+    this.service
+      .getCharacteristic(Characteristic.CurrentTemperature)
+      .setProps({
+        minValue: -600,
+        maxValue: 600
+      })
+
+    if (this.temperatureThresholds) {
+      this.service
+        .getCharacteristic(Characteristic.CoolingThresholdTemperature)
+        .on('set', this.setCoolingThresholdTemperature.bind(this))
+        .setProps({
+          minValue: this.minTemp,
+          maxValue: this.maxTemp,
+          minStep: this.minStep
+        })
+
+      this.service
+        .getCharacteristic(Characteristic.HeatingThresholdTemperature)
+        .on('set', this.setHeatingThresholdTemperature.bind(this))
+        .setProps({
+          minValue: this.minTemp,
+          maxValue: this.maxTemp,
+          minStep: this.minStep
+        })
+    }
+
+    this._getStatus(function () {})
+
+    setInterval(function () {
+      this._getStatus(function () {})
+    }.bind(this), this.pollInterval * 1000)
+
+    return [this.informationService, this.service]
+  }
 }
