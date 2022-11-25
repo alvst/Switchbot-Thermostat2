@@ -8,14 +8,15 @@ module.exports = function (homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
   homebridge.registerAccessory(
-    'homebridge-web-thermostat',
+    'Switchbot-Thermostat',
     'Thermostat',
     Thermostat
   );
 };
 
 function Thermostat(log, config) {
-  // this.log = log;
+  this.log = log;
+  console.log(log);
 
   // this.pollInterval = config.pollInterval || 300;
   // this.validStates = config.validStates || [0, 1, 2, 3];
